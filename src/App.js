@@ -1,7 +1,20 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
+import React, { Component } from "react";
 import './App.css';
 
-function App() {
+/** 应用根组件 */ 
+
+/** 函数function组件 && 类class组件 */
+export default class App extends Component {
+  render () {
+    return ( 
+      <div  className="App"> App </div> 
+    )
+  }
+}
+
+
+/* function App() {
   return (
     <div className="App">
       <header className="App-header">
@@ -21,5 +34,6 @@ function App() {
     </div>
   );
 }
-
 export default App;
+ */
+ 
