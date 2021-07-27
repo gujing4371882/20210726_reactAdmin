@@ -42,3 +42,12 @@ addLessLoader({
     modifyVars: { '@primary-color' : '#1DA57A' } // theme
   }
 }),// 注意更早的版本 使用 addLessLoader({modifyVars:theme}) 配置 
+
+
+<!-- 5.引入路由 -->
+ // 路由是什么? 映射关系, 类似key => value 键值对的关系, key (path) && value{前台: component path映射的一个组件, 后台:回调函数 (针对不同的path,处理不同的业务逻辑) }
+yarn add react-router-dom 
+
+
+react 代码片段 - 快捷写法
+ES7 React/Redux/GraphQL/React-Native snippets
