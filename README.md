@@ -92,6 +92,36 @@ addLessLoader({
 
 yarn add react-router-dom 
 
+
+## 6 接口测试 
+postman
+
+
+## 7 前后台交互
+yarn add axios
+
+<!-- 代理 -->
+package.json => 
+"proxy": "http://xxx"
+
+- 代理的理解?
+webpack-dev-server (本地开发服务器) => http-proxy-middleware (实现代理)
+
+react 实现多代理 
+config/setupProxy.js
+
+
+promise
+
+async await  
+- 简化promise对象的使用,不再使用then()指定回调函数
+- 同步编码方式实现异步流程
+
+
+
+
+
+
 ## 10000 补充需求
 react 代码片段 - 快捷写法
 ES7 React/Redux/GraphQL/React-Native snippets

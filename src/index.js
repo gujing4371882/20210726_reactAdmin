@@ -5,9 +5,9 @@ import App from './App';
 import reportWebVitals from './reportWebVitals'; // 前端性能检测工具
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  // <React.StrictMode> // 严格模式
+    <App />,
+  // </React.StrictMode>,
   document.getElementById('root')
 );
 

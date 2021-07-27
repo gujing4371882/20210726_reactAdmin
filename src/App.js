@@ -13,15 +13,13 @@ export default class App extends Component {
   render () {
     return ( 
       <div  className="App"> 
-        {/* <HashRouter>  */}
-        {/* BrowserRouter 去除 # 号 */}
-        <BrowserRouter>
+        <HashRouter> 
+        {/* BrowserRouter 去除 # 号 */} 
           <Switch> 
             <Route path="/login" component={Login} /> 
             <Route path="/" component={Admin} /> 
-          </Switch>
-        </BrowserRouter>
-        {/* </HashRouter> */}
+          </Switch> 
+        </HashRouter>
       </div> 
     )
   }
