@@ -1,6 +1,47 @@
-## 调整 && 补充
+# 调整 && 补充
 
-<!-- 下载antd -->
+## 1 启用项目开发
+  1)使用react脚手架创建项目: 
+    - npm install -g create-react-app
+    - create-react-app 你的项目名
+    - cd 项目名
+    - npm run start 
+  
+  2)开发环境运行: npm run start
+
+  3)生产环境打包运行: npm run build && serve -s build
+## 2 git管理项目
+  1)创建远程库 (github || gitLabel等)
+  2)创建本地仓库:
+    - 配置.gitignore 文件
+    - git init 
+    - git add .
+    - git commit -m 'init'
+  3)将本地推送远程
+    - git remote add origin 远程地址
+    - git push origin master 推送至远程master,自动创建master分支
+  4)本地创建dev分支
+    - git checkout -b dev
+    - git push origin dev
+  5)本地又修改
+    - git add .
+    - git commit -m 'xxx'
+    - git push origin dev
+  6)克隆仓库
+    - git clone -b 分支名称 远程地址
+  7)远程修改
+    - git pull origin 分支名称
+  
+## 3 项目的基本结构 
+  api: ajax请求的模块
+  components: 非路由组件
+  pages: 路由组件
+  App.js: 应用的根组件
+  index.js: 入口JS
+
+## 4 引用antd
+
+<!-- 下载antd$ -->
 yarn add antd
 <!-- 
 react-app-rewired   作用是用来帮助你重写react脚手架配置
@@ -44,10 +85,13 @@ addLessLoader({
 }),// 注意更早的版本 使用 addLessLoader({modifyVars:theme}) 配置 
 
 
-<!-- 5.引入路由 -->
- // 路由是什么? 映射关系, 类似key => value 键值对的关系, key (path) && value{前台: component path映射的一个组件, 后台:回调函数 (针对不同的path,处理不同的业务逻辑) }
+## 5 引用路由
+
+// 路由是什么? 映射关系, 类似key => value 键值对的关系, key (path) && value
+// { 前台: component path映射的一个组件, 后台:回调函数 (针对不同的path,处理不同的业务逻辑) }
+
 yarn add react-router-dom 
 
-
+## 10000 补充需求
 react 代码片段 - 快捷写法
 ES7 React/Redux/GraphQL/React-Native snippets
