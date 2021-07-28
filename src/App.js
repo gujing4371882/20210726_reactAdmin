@@ -1,10 +1,11 @@
 // import logo from './logo.svg';
 import React, { Component } from "react";
-import './App.css'; 
+import {  HashRouter, Switch, Route} from 'react-router-dom' 
 
-import { BrowserRouter, HashRouter, Switch, Route} from 'react-router-dom'
+import './App.css'; 
 import Admin from './pages/admin/admin'
 import Login from './pages/login/login'
+
 
 /** 应用根组件 */ 
 

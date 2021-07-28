@@ -85,6 +85,16 @@ addLessLoader({
 }),// 注意更早的版本 使用 addLessLoader({modifyVars:theme}) 配置 
 
 
+<!-- 获取form表单值  -->
+/**
+  * Ref 获得实例
+  * getFieldValue 获取单个字段值
+  * getFieldsValue 获取多个字段值
+  * validateFields 获取验证后字段值
+  */
+const form = this.formRef.current 
+const fileds = form.getFieldsValue(['Username','Password'])
+    
 ## 5 引用路由
 
 // 路由是什么? 映射关系, 类似key => value 键值对的关系, key (path) && value
@@ -118,6 +128,12 @@ async await
 - 同步编码方式实现异步流程
 
 
+## 8、登录检查 -自动登录
+utils/storageUtils.js
+localStorage  ||  sessionStorage 
+
+内存中读取
+utils/memoryUtils.js || redux
 
 
 
@@ -125,3 +141,14 @@ async await
 ## 10000 补充需求
 react 代码片段 - 快捷写法
 ES7 React/Redux/GraphQL/React-Native snippets
+
+## 10001 高阶函数 && 高阶组件
+
+1）高阶函数： 接受的参数或者返回值 是函数
+如：数组遍历方法 || 定时器 || promise || 高阶组件 || bind() || apply() || 闭包 
+作用：实现动态
+
+2）高阶组件（本质是一个函数）
+函数接受一个组件，返回一个新的组件
+
+3）高阶组件是一个特别的高阶函数

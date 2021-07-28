@@ -1,4 +1,4 @@
-
+/** 多代理配置文件 */
 const proxy = require('http-proxy-middleware');
  
 module.exports = function(app) {

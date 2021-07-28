@@ -5,6 +5,8 @@ import {UserOutlined,LockOutlined} from '@ant-design/icons';
 
 import './login.less'
 import Logo from './images/logo.png' 
+import {setSession} from '../../utils/storageUtils'
+import {getUser} from '../../utils/memoryUtils'
 
 // const Item = Form.Item
 export default class Login extends Component {
@@ -16,38 +18,23 @@ export default class Login extends Component {
      * React将会将会在组件挂载时将DOM元素分配给current属性，并且在组件被卸载时，将current属性重置为null。
      * ref将会在componentDidMount和componentDidUpdate生命周期钩子前被更新
      */
-    const form = this.formRef.current 
-    /**
-     * Ref 获得实例
-     * getFieldValue 获取单个字段值
-     * getFieldsValue 获取多个字段值
-     * validateFields 获取验证后字段值
-     */
-    const fileds = form.getFieldsValue(['Username','Password'])
-    
+    const form = this.formRef.current    
     // form 表单验证
-    form.validateFields().then((values)=>{
-      
-      Message.success('登录成功!') 
-      
-      console.log(fileds)
+    form.validateFields().then((values)=>{ 
+      Message.success('登录成功!')
 
-      // use用户信息保存
-      sessionStorage.setItem('login_use', JSON.stringify({
-        _id: '5cd32e23wewe3232221wew',
-        password: '23892437929791123',
-        username: 'admin',
-        create_time: 21981713221,
-        role: {
-          menus: []
-        }
-      })) 
+      // 模拟默认值
+      let user = { _id: '5cd32e23wewe3232221wew', password: '23892437929791123', username: 'admin', create_time: 21981713221, role: { menus: [] } }
+      
+      // 用户信息保存缓存中 storageUtils
+      setSession ('login_use', user)
+      // 用户信息保存内存中 memoryUtils
+      getUser ()
 
-      // 路由跳转 replace 回不到上一级,适应于登录
+      // 主页
       this.props.history.replace('/') 
       
     }).catch((errInfo)=>{
-
       Message.error('登录失败!') 
     })
 
@@ -55,7 +42,7 @@ export default class Login extends Component {
 
   render() {  
 
-    const user = JSON.parse(sessionStorage.getItem('login_use') || "{}")
+    const user = getUser() // getSession('login_use')
     if(user._id) { 
       return <Redirect to="/" />  
     }
