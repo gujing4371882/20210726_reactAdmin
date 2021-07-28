@@ -102,6 +102,10 @@ const fileds = form.getFieldsValue(['Username','Password'])
 
 yarn add react-router-dom 
 
+### Seitch 等
+
+？？？？？？
+
 
 ## 6 接口测试 
 postman
@@ -138,6 +142,10 @@ utils/memoryUtils.js || redux
 <!-- 两种自动登录方式 -->
 this.props.history.replace('/login')  // 事件回调函数中路由跳转
 return <Redirect to="/login" /> // 自动跳转到指定的路由路径
+
+
+## 
+
 
 
 ## 10000 补充需求
