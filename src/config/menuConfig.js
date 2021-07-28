@@ -1,0 +1,59 @@
+const menuList =[
+  {
+    title:'首页',
+    icon:'PieChartOutlined',
+    key:'/home'
+  },
+  {
+    title:'商品',
+    icon:'PieChartOutlined',
+    key:'/productions',
+    children:[
+      {
+        title:'品类管理',
+        icon:'PieChartOutlined',
+        key:'/category'
+      },
+      {
+        title:'商品管理',
+        icon:'PieChartOutlined',
+        key:'/product'
+      }
+    ]
+  },
+  {
+    title:'用户管理',
+    icon:'PieChartOutlined',
+    key:'/user'
+  },
+  {
+    title:'角色管理',
+    icon:'PieChartOutlined',
+    key:'/role'
+  },
+  {
+    title:'图形表',
+    icon:'PieChartOutlined',
+    key:'/charts',
+    children:[
+      {
+        title:'柱形图',
+        icon:'PieChartOutlined',
+        key:'/charts/bar'
+      },
+      {
+        title:'折线图',
+        icon:'PieChartOutlined',
+        key:'/charts/line'
+      },
+      {
+        title:'饼图',
+        icon:'PieChartOutlined',
+        key:'/charts/pie'
+      }
+
+    ]
+  }
+]
+
+export default menuList 

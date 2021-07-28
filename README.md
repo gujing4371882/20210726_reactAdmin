@@ -135,7 +135,9 @@ localStorage  ||  sessionStorage
 内存中读取
 utils/memoryUtils.js || redux
 
-
+<!-- 两种自动登录方式 -->
+this.props.history.replace('/login')  // 事件回调函数中路由跳转
+return <Redirect to="/login" /> // 自动跳转到指定的路由路径
 
 
 ## 10000 补充需求
