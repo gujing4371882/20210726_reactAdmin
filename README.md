@@ -144,7 +144,9 @@ this.props.history.replace('/login')  // 事件回调函数中路由跳转
 return <Redirect to="/login" /> // 自动跳转到指定的路由路径
 
 
-## 
+## JSONP 接口
+npm i jsonp
+
 
 
 
