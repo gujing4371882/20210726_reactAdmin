@@ -81,8 +81,6 @@ class Header extends Component {
       <div className="header">
         <div className="header-top">
           欢迎，{getUser().username}
-          {/* <a href="javascript:" onClick={ this.logout }>退出</a> */}
-
           {/* 组件的标签体（展示文本 - 退出） 作为标签的children属性传入 */}
           <LinkButton onClick={ this.logout }>退出</LinkButton>
         </div>
