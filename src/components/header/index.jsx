@@ -9,6 +9,7 @@ import {getUser} from '../../utils/memoryUtils'
 import menuList from '../../config/menuConfig'
 import { dateFormat } from '../../utils/dateUtils'
 import {reWeather} from '../../api/index'
+import LinkButton from "../link-button";
 
 class Header extends Component {
   /**
@@ -80,7 +81,10 @@ class Header extends Component {
       <div className="header">
         <div className="header-top">
           欢迎，{getUser().username}
-          <a href="javascript:" onClick={ this.logout }>退出</a>
+          {/* <a href="javascript:" onClick={ this.logout }>退出</a> */}
+
+          {/* 组件的标签体（展示文本 - 退出） 作为标签的children属性传入 */}
+          <LinkButton onClick={ this.logout }>退出</LinkButton>
         </div>
         <div className="header-bottom">
           <div className="header-bottom-left">{ title }</div>

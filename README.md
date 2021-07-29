@@ -102,6 +102,11 @@ const fileds = form.getFieldsValue(['Username','Password'])
 
 yarn add react-router-dom 
 
+withRouter: 包装非路由组件，给其传入history、location、match
+history: push()/replace()/goBack()
+location: pathname 属性
+match：params 路由传参
+
 ### Seitch 等
 
 ？？？？？？
@@ -148,7 +153,9 @@ return <Redirect to="/login" /> // 自动跳转到指定的路由路径
 npm i jsonp
 
 
-
+## 100 周期
+componentWillMount(): 第一次 render() 前调用一次，为第一次render()准备数据 （ 同步 ）
+componentDidMount()：第一次 render() 后调用一次，启动异步任务，后面异更新步状态，重新 render()
 
 ## 10000 补充需求
 react 代码片段 - 快捷写法
@@ -164,3 +171,8 @@ ES7 React/Redux/GraphQL/React-Native snippets
 函数接受一个组件，返回一个新的组件
 
 3）高阶组件是一个特别的高阶函数
+
+
+## map && reduce
+
+
