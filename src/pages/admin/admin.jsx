@@ -38,6 +38,12 @@ export default class Admin extends Component {
           <Content style={{ background: '#fff', margin: '20px' }}>
             
             <Switch>
+              {/* 方式一 */}
+              {/* 
+                Router
+                key => path
+                value => component
+              */}
               <Route path="/home" component={Home} />
               <Route path="/category" component={Category} />
               <Route path="/product" component={Product} />
@@ -47,6 +53,11 @@ export default class Admin extends Component {
               <Route path="/charts/bar" component={Bar} />
               <Route path="/charts/pie" component={Pie} />
               <Redirect to="/home" />
+
+              {/* 方式二 */}
+              {/* <Route path="/admin/home" component={Home} />
+              ......
+              <Redirect to="/admin/home" /> */}
             </Switch>
           </Content>
           <Footer style={{ textAlign: 'center', color: 'rgba(0, 0, 0, 0.5)' }}>

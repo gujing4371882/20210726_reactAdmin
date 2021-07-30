@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 import React, { Component } from "react";
-import {  HashRouter, Switch, Route} from 'react-router-dom' 
+import {  HashRouter, Switch, Route, Redirect} from 'react-router-dom' 
 
 import './App.css'; 
 import Admin from './pages/admin/admin'
@@ -18,7 +18,11 @@ export default class App extends Component {
         {/* BrowserRouter 去除 # 号 */} 
           <Switch> 
             <Route path="/login" component={Login} /> 
+            {/* 方式一 */}
             <Route path="/" component={Admin} /> 
+            {/* 方式二 */}
+            {/* <Route path="/admin" component={Admin} />  */}
+            {/* <Redirect to="/admin"/> */}
           </Switch> 
         </HashRouter>
       </div> 

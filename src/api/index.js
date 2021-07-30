@@ -20,6 +20,16 @@ export function regLogin (userName, passWord) {
 
 export const login  =  data => axios.post('/apc/login', data)
 
+// 获取分类 两种方式都行 get
+export const reqCategory = params => axios('/apc/getCategory', params)
+// export const reqCategory = params => axios.get('/apc/getCategory', params)
+// 新增
+export const addCategory = data => axios.post('/apc/addCategory', data)
+export const updateCategory = data => axios.post('/apc/updateCategory', data)
+
+
+
+
 // 发送JSONP请求 - 写法
 export const reWeather = (city) => {
   new Promise( (resolve, reject) => { // new Promise 执行器函数 - 执行异步任务
