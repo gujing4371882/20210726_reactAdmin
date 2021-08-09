@@ -5,3 +5,11 @@ export const getUser = () => {
   // 初始值为 sessionStorge中的值
   return getSession('login_use')
 }
+
+const product = {}
+export const setProduct = (v) => {
+  product.key = v || {}
+}
+export const getProduct = () => {
+  return product || {}
+}

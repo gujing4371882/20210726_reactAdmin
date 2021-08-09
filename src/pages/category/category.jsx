@@ -20,7 +20,6 @@ export default class Category extends Component {
     categorys: [], // 分类列表数据  
     loading: false, // 加载缓冲
     showStatus: 0, // 0:不显示 1: 显示添加 2:显示编辑
-
   }
 
   // beforeMount
@@ -106,7 +105,6 @@ export default class Category extends Component {
   } 
 
   render() { 
-
     /** 
      * -----
      * 取出状态数据 

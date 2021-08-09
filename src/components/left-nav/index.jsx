@@ -47,7 +47,7 @@ class LefeNav extends Component {
       } else {
 
         // find 查找对应的子路由的主菜单key
-        let cItem = v.children.find( citem => citem.key === path )
+        let cItem = v.children.find( citem => path.indexOf(citem.key) === 0 )
         if(cItem) {
           this.openKey = v.key
         }
@@ -89,7 +89,12 @@ class LefeNav extends Component {
 
   render() {
     // 当前请求的路劲
-    const selectKey = this.props.location.pathname
+    // const selectKey = this.props.location.pathname
+    let selectKey = this.props.location.pathname
+    if(selectKey.indexOf('/product') === 0) { // 当前请求的是商品或其子路由界面
+      selectKey = '/product' 
+    } 
+
     // 当前选中的submenu展开 
     return (
       <div className="left-nav">

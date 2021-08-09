@@ -78,10 +78,10 @@ export default class Login extends Component {
                         if(!value) {
                           return Promise.reject('请输入密码')
                         }
-                        if(value.length >= 6 && value.length<=10) {
+                        if(value.length >= 5 && value.length <= 10) {
                           return Promise.resolve()
                         } else {
-                          return Promise.reject('密码长度必须是6~10位')
+                          return Promise.reject('密码长度必须是5~10位')
                         }
                       }
                     }
