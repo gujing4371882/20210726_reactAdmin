@@ -18,6 +18,7 @@ export const removeLocal = (key) => localStorage.removeItem(key)
 
 // sessionStorage
 export const setSession = (key, value) => {
+  console.log(value)
   sessionStorage.setItem(key, typeof value === 'object' ? JSON.stringify(value) : value); 
 }
 // localStorage get

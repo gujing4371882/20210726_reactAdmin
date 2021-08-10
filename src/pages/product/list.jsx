@@ -3,10 +3,10 @@ import { Card,Table, Select, Input, Button, Message, Modal, message } from 'antd
 import { PlusOutlined,SearchOutlined } from '@ant-design/icons';
 
 import LinkButton from "../../components/link-button"; 
-import {setProduct, getProduct} from '../../utils/memoryUtils'
+import {setProduct, getProduct} from '../../utils/memoryUtils';
+import { getProducts, getProductsSearch } from '../../api/index';
 
 const { Option } = Select;
-
 export default class Product extends Component {
 
   state = {
@@ -14,13 +14,16 @@ export default class Product extends Component {
     loading: false,
     searchType: 'productName', // 默认按商品名称搜素
     searchName: '', // 搜索的关键字
+    total: 0,
+    pageNum: 1,
+    pageSize: 10,
   }
  
   componentWillMount () {
     this.initColumns ()    
   }  
   componentDidMount () { 
-    this.getProductMock()
+    this.getProduct()
   } 
   
   initColumns = () => {
@@ -81,24 +84,35 @@ export default class Product extends Component {
     ]
   }
 
-  getProductMock = () => { 
+  // 默认查询
+  getProduct = async (pageNum) => { 
     this.setState({ loading: true })
-    this.setState ({
-      products: [
-        { _id: '1', name: 'JB', desc: '撒否哦为128312', price: '1000.00',categoryId: '1', status: 1, imgs: ['https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png', 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg'],detail: '<a>nihaowreqrewqrrrrrrrrrrrrrrrrrrrrrrrrrrrewwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr </a><b>dsafpiqpaopfdaokfpafdasfijdafkdlafasewrewrwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwfdasfd</b><img src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg" />' },
-        { _id: '2', name: 'JG', desc: '委屈饿11213', price: '2000.00', categoryId: '2',status: 1, imgs: [ 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg'],detail: ' <b>dsafpiqpaopfdaokfpafdasfijdafkdlafasewrewrwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwfdasfd</b><img src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg" />'  },
-        { _id: '3', name: 'JM', desc: '213131sdwew问问', price: '5000.00', status: 2,categoryId: '1', imgs: ['https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'],detail: '<a>nihaowreqrewqrrrrrrrrrrrrrrrrrrrrrrrrrrrewwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr </a> <img src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg" />'  },
-        { _id: '4', name: 'JS', desc: '额外全额完全耳温枪12', price: '3000.00',categoryId: '3', status: 1, imgs: [],detail: ''  },
-        { _id: '5', name: 'JF', desc: '额为全额趣味32342', price: '4000.00', categoryId: '1',status: 2, imgs: ['https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png', 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg'],detail: ' <img src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg" />'  },
-      ]
-    }) 
+    let res = await getProducts ({
+      pageNum, pageSize: this.state.pageSize
+    })
     this.setState({ loading: false }) 
-  } 
+
+    this.setState({
+      products: res.list
+    })
+  }
+  // 搜索查询
+  getProductsSearch = async (pageNum, searchName, productName) => {    
+    this.setState({ loading: true })
+    let res = await getProductsSearch ({
+      pageNum, pageSize:this.state.pageSize,searchName, productName
+    })
+    this.setState({ loading: false }) 
+    this.setState({
+      products: res.list
+    })
+
+  }
 
   // 条件查询
   handleSearch = () => {
-    console.log( this.state.searchType, this.state.searchName)
-    // api
+    console.log( this.state.searchType, this.state.searchName) 
+    this.getProductsSearch(this.pageNum, this.state.searchType, this.state.searchName)
   }
   // 更新状(态
   handleUpdateStatus = (row) => {
@@ -114,7 +128,7 @@ export default class Product extends Component {
 
   render() {
     // 获取状态数据
-    const {loading, products,searchType, searchName } = this.state
+    const {loading, products,searchType, searchName, total } = this.state
     // 标题样式
     const title = (
       <div style={{ textAlign: 'left' }}>
@@ -155,9 +169,9 @@ export default class Product extends Component {
           bordered // 边框
           pagination = { 
             {
-              defaultPageSize: 4, // 指定条数
+              defaultPageSize: this.pageNum, // 指定条数
               showQuickJumper: true,
-              total: 50
+              total
             } 
           }
         />

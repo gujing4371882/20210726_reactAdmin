@@ -7,42 +7,32 @@ import './login.less'
 import Logo from '../../assets/images/logo.png' 
 import {setSession} from '../../utils/storageUtils'
 import {getUser} from '../../utils/memoryUtils'
+import {login} from '../../api/index.js'
 
 // const Item = Form.Item
 export default class Login extends Component {
   // ref
   formRef = React.createRef();
 
-  handleLogin = () => {  
-    /** 
-     * React将会将会在组件挂载时将DOM元素分配给current属性，并且在组件被卸载时，将current属性重置为null。
-     * ref将会在componentDidMount和componentDidUpdate生命周期钩子前被更新
-     */
+  handleLogin = () => {   
     const form = this.formRef.current    
     // form 表单验证
-    form.validateFields().then((values)=>{ 
-      Message.success('登录成功!')
-
-      // 模拟默认值
-      let user = { _id: '5cd32e23wewe3232221wew', password: '23892437929791123', username: 'admin', create_time: 21981713221, role: { menus: [] } }
-      
-      // 用户信息保存缓存中 storageUtils
-      setSession ('login_use', user)
-      // 用户信息保存内存中 memoryUtils
-      getUser ()
-
-      // 主页
-      this.props.history.replace('/') 
-      
+    form.validateFields().then( async (values) => { 
+      if(values) {
+        let res = await login ({username: form.getFieldValue('Username'), password: form.getFieldValue('Password')})        
+        Message.success('登录成功!')
+        setSession ('login_use',  res) //本地      
+        getUser () // 内存
+        this.props.history.replace('/') // 主页 
+      }      
     }).catch((errInfo)=>{
       Message.error('登录失败!') 
     })
-
   };
 
-  render() {  
+  render() {
 
-    const user = getUser() // getSession('login_use')
+    const user = getUser()
     if(user._id) { 
       return <Redirect to="/" />  
     }

@@ -1,28 +1,40 @@
 import React, { Component } from 'react'
-import { Upload, Modal } from 'antd';
+import { Upload, Modal, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
+import {delPictures} from '../../api/index'
+import PropTypes from 'prop-types' // 用来校验父组件传递过来值的类型
+
 export default class PicturesWall extends Component {
+
+  // 默认值显示
+  static propTypes = {
+    imgs: PropTypes.array
+  }
 
   state = {
     previewVisible: false,
     previewImage: '',
     previewTitle: '',
-    fileList: [
-      {
-        uid: '-1',
-        name: 'image.png',
-        status: 'done',
-        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      },
-      {
-        uid: '-2',
-        name: 'image.png',
-        status: 'done',
-        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      }, 
-    ],
+    fileList: [],
   };
+
+  componentWillMount () {
+    // 根据imgs生成filelist
+    const imgs = this.props.imgs
+    if(imgs && imgs.length > 0) {
+      const fileList = imgs.map((item, index) => ({
+        uid: -index,
+        name: item.name,
+        status: 'done',
+        url: '/api/' + item.img
+      }) )
+
+      this.setState ({
+        fileList
+      })
+    }
+  }
 
   getBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -32,10 +44,8 @@ export default class PicturesWall extends Component {
       reader.onerror = error => reject(error);
     });
   }
-
   handleCancel = () => this.setState({ previewVisible: false });
-
-  handlePreview = async file => {
+  handlePreview = async file => { 
     if (!file.url && !file.preview) {
       file.preview = await this.getBase64(file.originFileObj);
     }
@@ -46,6 +56,19 @@ export default class PicturesWall extends Component {
       previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
     });
   };
+  // 上传&&删除操作
+  handleChange = ({ file, fileList }) => { 
+    console.log(file)
+    this.setState({ fileList }) 
+    // 判断图片删除 
+    if(file.status === "removed") {
+      this.delPictures({name: file.response?.data?.name})
+    }
+  }
+
+  delPictures = async (data) => {
+    await delPictures(data)
+  }
 
   render() {
     const { previewVisible, previewImage, fileList, previewTitle } = this.state;
@@ -58,8 +81,8 @@ export default class PicturesWall extends Component {
     return (
       <>
         <Upload
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-          name="images" // 参数名
+          action="/api/manage/img/upload" 
+          name="image" // 参数名
           listType="picture-card"
           fileList={fileList}
           onPreview={this.handlePreview}

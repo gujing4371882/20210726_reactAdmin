@@ -6,28 +6,54 @@ import jsonp from "jsonp"
 import axios from "axios"
 import ajax from './ajax'
 
-export function regLogin (userName, passWord) {
-  // return 将ajax的结构返回
+const BASE_ULR = `/api`
+const OTHER_URL =`/apc`
+
+export function regLogin (userName, passWord) {  
   return ajax({
     method: 'post',
-    url: '/api/login',
+    url: '/api/login', 
     data: {
       userName,
       passWord
     }
   })
 }
+export const login_  =  data => axios.post(`${OTHER_URL}/login`, data)
 
-export const login  =  data => axios.post('/apc/login', data)
+// 登录
+export const login  =  data => axios.post(`${BASE_ULR}/login`, data)
+// 获取分类
+export const reqCategory = params => axios(`${BASE_ULR}/manage/category/list`, params)
+// export const reqCategory = params => axios.get(`${BASE_ULR}/manage/category/list`, params)
 
-// 获取分类 两种方式都行 get
-export const reqCategory = params => axios('/apc/getCategory', params)
-// export const reqCategory = params => axios.get('/apc/getCategory', params)
-// 新增
-export const addCategory = data => axios.post('/apc/addCategory', data)
-export const updateCategory = data => axios.post('/apc/updateCategory', data)
+// 新增分类
+export const addCategory = data => axios.post(`${BASE_ULR}/manage/category/add`, data)
+// 编辑分类
+export const updateCategory = data => axios.post(`${BASE_ULR}/manage/category/update`, data)
 
+// 获取产品
+export const getProducts = params => axios.get(`${BASE_ULR}/manage/product/list`, params)
+export const getProductsSearch = params => axios.get(`${BASE_ULR}/manage/product/search`, params)
+// 新增产品
 
+// 编辑产品
+// 获取产品详情
+// 上传图片
+
+export const uploadImages_ = data => axios.post(`${BASE_ULR}/manage/img/upload`, data)
+
+// 删除图片 
+export const delPictures = (data) => axios.post(`${BASE_ULR}/manage/img/delete`, data)
+
+export function uploadImages (data) {  
+  return ajax({
+    method: 'post',
+    url: '/api/manage/img/upload',
+    headers: {'Content-Type': 'multipart/form-data'},
+    data
+  })
+}
 
 
 // 发送JSONP请求 - 写法

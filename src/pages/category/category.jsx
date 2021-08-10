@@ -28,8 +28,7 @@ export default class Category extends Component {
   } 
   // mounted
   componentDidMount () {
-    // this.getCategory()
-    this.getCategoryMock()
+    this.getCategory() 
   } 
 
   // 初始化所有列信息
@@ -53,55 +52,62 @@ export default class Category extends Component {
       },
     ];
   }
+  
   // 获取接口数据
-  getCategory = async () => {
-    
+  getCategory = async () => {   
     this.setState({ loading: true })
-    let result = await reqCategory()
+    const categorys = await reqCategory()
     this.setState({ loading: false })
-    if(result.status === 0) {
-     const categorys= result.categorys     
-      this.setState ({
-        categorys 
-      })
-    } else {
-      Message.error('获取失败！')
-    } 
-   
-  }
-  // 获取模拟数据
-  getCategoryMock = () => {
-    // 模拟数据更新
-    // this.setState({ loading: true })
+    // 更新状态
     this.setState ({
-      categorys: [
-        { _id: '1', name: 'JB' },
-        { _id: '2', name: 'JG' },
-        { _id: '3', name: 'JM' },
-        { _id: '4', name: 'JS' },
-        { _id: '5', name: 'JF' },
-      ]
-    })
-       
-    // this.setState({ loading: false }) 
-  }
+      categorys 
+    })     
+  } 
 
   // 保存-编辑和添加
   handleOk = () => {  
     // 输入验证
     const valid = this.form.current
     valid.validateFields().then( (values) => {
-      if(!values) {        
-        // let { categoryName } = values  
-        console.log(values)
-        this.setState({showStatus: 0})
+      if(values) {
+        if(this.state.showStatus === 1){ 
+          this.addCategory({categoryName: valid.getFieldValue('categoryName')})
+        } else { 
+          this.updateCategory({categoryId: this.category._id, categoryName: valid.getFieldValue('categoryName')})
+        }
       }
     })
-
   }
+
   // 取消}
   handleCancel = () => {
     this.setState({showStatus: 0})
+  }
+
+  // 新增
+  addCategory = async (data) => {
+    this.setState({ loading: true })
+    let res = await addCategory(data)
+    this.setState({ loading: false }) 
+    // 关闭
+    if(res) {    
+      Message.success('添加成功！')  
+      this.setState({ showStatus: 0 }) 
+    }
+    this.getCategory()
+  }
+
+  // 修改
+  updateCategory = async (data) => {
+    this.setState({ loading: true })
+    let res = await updateCategory(data)
+    this.setState({ loading: false }) 
+    // 关闭
+    if(res) {      
+      Message.success('修改成功！')
+      this.setState({ showStatus: 0 }) 
+    }
+    this.getCategory()
   } 
 
   render() { 
@@ -137,7 +143,7 @@ export default class Category extends Component {
             bordered // 边框
             pagination = { 
               {
-                defaultPageSize: 4, // 指定条数
+                defaultPageSize: 20, // 指定条数
                 showQuickJumper: true
               } 
             }
