@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
-import { Card,Table, Select, Input, Button, Message, Modal, message } from 'antd'; 
-import { PlusOutlined,SearchOutlined } from '@ant-design/icons';
+import { Card,Table, Select, Input, Button, Message, Modal } from 'antd'; 
+import { PlusOutlined, SearchOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 
 import LinkButton from "../../components/link-button"; 
 import {setProduct, getProduct} from '../../utils/memoryUtils';
-import { getProducts, getProductsSearch } from '../../api/index';
+import { getProducts, getProductsSearch, updateStatusProduce, reqSearchProducts, updateProduct } from '../../api/index';  
 
 const { Option } = Select;
+const { confirm } = Modal;
 export default class Product extends Component {
 
   state = {
@@ -16,12 +17,13 @@ export default class Product extends Component {
     searchName: '', // 搜索的关键字
     total: 0,
     pageNum: 1,
-    pageSize: 10,
+    pageSize: 5,
   }
  
   componentWillMount () {
     this.initColumns ()    
-  }  
+  }
+
   componentDidMount () { 
     this.getProduct()
   } 
@@ -46,8 +48,7 @@ export default class Product extends Component {
         }
       }, 
       {
-        title: '状态',
-        // dataIndex: 'status', 
+        title: '状态', 
         width: 80,
         render: (row) => {
           let btnText= '下架'
@@ -84,51 +85,91 @@ export default class Product extends Component {
     ]
   }
 
-  // 默认查询
-  getProduct = async (pageNum) => { 
-    this.setState({ loading: true })
-    let res = await getProducts ({
-      pageNum, pageSize: this.state.pageSize
-    })
-    this.setState({ loading: false }) 
-
-    this.setState({
-      products: res.list
-    })
-  }
-  // 搜索查询
-  getProductsSearch = async (pageNum, searchName, productName) => {    
-    this.setState({ loading: true })
-    let res = await getProductsSearch ({
-      pageNum, pageSize:this.state.pageSize,searchName, productName
-    })
-    this.setState({ loading: false }) 
-    this.setState({
-      products: res.list
-    })
-
-  }
-
   // 条件查询
-  handleSearch = () => {
-    console.log( this.state.searchType, this.state.searchName) 
+  handleSearch = () => { 
     this.getProductsSearch(this.pageNum, this.state.searchType, this.state.searchName)
-  }
-  // 更新状(态
-  handleUpdateStatus = (row) => {
-    console.log(row)
-    // api
-  }
-
+  } 
+  
   handleDetail = (product) => {
     setProduct(product) 
-
     this.props.history.push('/product/detail') 
+  }
+
+  // 更新状(态
+  handleUpdateStatus = (row) => { 
+    const _this = this
+    // api
+    confirm({
+      title: row.status === 1 ? '是否下架？' : '是否上架？',
+      icon: <ExclamationCircleOutlined />, 
+      okText: '确认',
+      cancelText: '取消',
+      onOk() {
+        _this.updateStatusProduce({
+          productId: row._id,
+          status: row.status === 1 ? 2 : 1
+        })
+      },
+      onCancel() { },
+    });
+  }
+
+  // 默认查询
+  getProduct = async () => {
+    this.setState({ loading: true }) 
+    const { pageNum, pageSize } = this.state   
+    let { data, status } = await getProducts ({
+      pageNum, pageSize
+    }) 
+    this.setState({ loading: false }) 
+    if(status === 0) { 
+      this.setState({
+        products: data.list,
+        total: data.total
+      })
+    }
+  }
+
+  // 搜索查询
+  getProductsSearch = async () => {    
+    const {pageNum, pageSize, searchName, searchType} = this.state
+    this.setState({ loading: true }) 
+    let { data, status } = await reqSearchProducts ({
+      pageNum, pageSize, searchName, searchType
+    }) 
+    this.setState({ loading: false }) 
+    if(status === 0) {      
+      this.setState({
+        products: data.list,
+        total: data.total
+      }) 
+    } else {
+      // Message.error(data.msg)
+    }
+  }
+
+  onChange = (pageNum) => {
+    this.setState({
+      pageNum
+    }, () => {
+      this.getProductsSearch()
+    })
+  } 
+
+  // 
+  updateStatusProduce = async (data) => {
+    const {status, msg} = await updateStatusProduce(data) 
+    if(status === 0) {
+      Message.success(msg)
+    } else {
+      Message.error(msg)      
+    } 
+    this.getProductsSearch()
   }
 
   render() {
     // 获取状态数据
-    const {loading, products,searchType, searchName, total } = this.state
+    const {loading, products, searchType, searchName, total, pageSize } = this.state
     // 标题样式
     const title = (
       <div style={{ textAlign: 'left' }}>
@@ -148,14 +189,12 @@ export default class Product extends Component {
         <Button type="primary" icon={ <SearchOutlined />} style={{ margin: '0 5px' }} onClick={ this.handleSearch } >搜索</Button>
       </div>
     )
-   
+    
     const extra = (
       <Button type="primary" icon={ <PlusOutlined />} onClick={ () => {
-        // 清空数据
-
+        // 清空数据 
         // 跳转
         this.props.history.push('/product/addUpdate')
-
       }}> 新增商品 </Button>
     )
 
@@ -169,7 +208,8 @@ export default class Product extends Component {
           bordered // 边框
           pagination = { 
             {
-              defaultPageSize: this.pageNum, // 指定条数
+              onChange: this.onChange ,
+              defaultPageSize: pageSize, // 指定条数
               showQuickJumper: true,
               total
             } 
@@ -178,4 +218,5 @@ export default class Product extends Component {
       </Card>
     )
   }
+
 }

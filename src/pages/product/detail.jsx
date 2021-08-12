@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import {Card, List} from 'antd'
-import { SwapLeftOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined  } from '@ant-design/icons';
 import LinkButton from "../../components/link-button";
 
 import './detail.less' 
@@ -20,7 +20,7 @@ export default class Detail extends Component {
     const title = (
       <span>
         <LinkButton onClick={ ()=> this.props.history.goBack()}> 
-          <SwapLeftOutlined />        
+          <ArrowLeftOutlined  />        
         </LinkButton> 
         商品详情
       </span>
@@ -37,9 +37,9 @@ export default class Detail extends Component {
             <span className="detail-left">商品描述：</span>
             {product.desc}
           </List.Item> 
-          <List.Item > 
+          <List.Item style={{ display: 'block' }}> 
             <span className="detail-left">商品价格：</span>
-            {product.price}
+            ￥{product.price} 
           </List.Item> 
           <List.Item > 
             <span className="detail-left">商品分类：</span>
@@ -49,7 +49,7 @@ export default class Detail extends Component {
             <span className="detail-left">商品图片：</span>          
             {
               product.imgs.map (item => {
-                return <img className="detail-img" key="{item}" src={item}  alt="商品图片" />
+                return <img className="detail-img" key="{item}" src={`/api/upload/` + item}  alt="商品图片" />
               })
             }
           </List.Item> 

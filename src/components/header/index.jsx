@@ -8,7 +8,7 @@ import {removeSession} from '../../utils/storageUtils'
 import {getUser} from '../../utils/memoryUtils'
 import menuList from '../../config/menuConfig'
 import { dateFormat } from '../../utils/dateUtils'
-import {reWeather} from '../../api/index'
+// import {reWeather} from '../../api/index'
 import LinkButton from "../link-button";
 
 class Header extends Component {
@@ -55,10 +55,10 @@ class Header extends Component {
     return title
   }
   // 
-  getWeather = async () => {
-    const result = await reWeather('合肥')
-    console.log(result)
-  }
+  // getWeather = async () => {
+  //   const result = await reWeather('合肥')
+  //   console.log(result)
+  // }
 
   // 
   componentDidMount () {
@@ -70,7 +70,7 @@ class Header extends Component {
     }, 1000);
 
     // 获取天气接口
-    this.getWeather ()    
+    // this.getWeather ()    
   }
   
   render() {

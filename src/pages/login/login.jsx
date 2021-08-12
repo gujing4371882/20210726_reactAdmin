@@ -19,7 +19,7 @@ export default class Login extends Component {
     // form 表单验证
     form.validateFields().then( async (values) => { 
       if(values) {
-        let res = await login ({username: form.getFieldValue('Username'), password: form.getFieldValue('Password')})        
+        let res = await login ({username: form.getFieldValue('Username'), password: form.getFieldValue('Password')})      
         Message.success('登录成功!')
         setSession ('login_use',  res) //本地      
         getUser () // 内存
